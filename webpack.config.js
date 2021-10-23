@@ -2,7 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
     //0.Establecer el modo del configurador
-    mode: 'development',
+    mode: 'developement',
     //1.Especificando el archivo de  entrada
     entry: './client/index.js',
     // 2.Especificando la salida

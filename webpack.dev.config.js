@@ -1,7 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-// Importando  el  eslint de
+// Importando  el  eslint 
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 
 module.exports = {

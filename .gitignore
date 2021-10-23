@@ -1,2 +1,5 @@
 node_modules
 dist-server
+# Ignorando los archivo de logs 
+logs
+*.logs

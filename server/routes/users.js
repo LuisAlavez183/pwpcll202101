@@ -1,9 +1,14 @@
-var express = require('express');
-var router = express.Router();
+
+// Import router
+import { Router} from 'express';
+
+// Importando el controlador
+import useController from '@server/controllers/useController';
+
+// Creando la instancia del Router
+const router = new Router
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/', useController.index); 
 
-module.exports = router;
+export default router;
