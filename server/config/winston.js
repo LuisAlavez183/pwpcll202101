@@ -1,84 +1,82 @@
-// Importando a winston
-import winston, {format} from 'winston';
+// importando a winston
+import winston, { format } from 'winston';
 import appRoot from 'app-root-path';
 
-// Componetes para crear el formato personalizado
-const { combine, timestamp, printf, uncolorize, json, colorize} = format;
-
- 
-// Creando el  perfil de color para el log
-const colors ={
-    error: 'red',
-    warning: 'yellow',
-    info: 'green',
-    http: 'magenta',
-    debug: 'blue',
+// Componentes para crear el formato personalizado 
+const { combine, timestamp, printf, uncolorize, json, colorize } = format;
+// Perfil de color para el log
+const colors = {
+  error: 'red',
+  warn: 'yellow',
+  info: 'green',
+  http: 'magenta',
+  debug: 'green',
 };
-// Agrerando el perfil a winston
+//Agregando el perfil a winston
 winston.addColors(colors);
-// Formato de consola 
-const myForm = format.combine(
+
+//Formato de consola
+const myFormat = combine(
     colorize({ all: true}),
     timestamp(),
-    printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
+  printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
 );
 
 // Formato para la salida de los archivos de log
-const myFormat = format.combine(
+const myFileFormat = combine(
     uncolorize(),
-    timestamp(),
+    format.timestamp(),
     json()
 );
 
-
-// Crean objetos de configuracion 
-const option ={
-    infoFile:{
-        level:'info',
+// Creando objetos de configuración 
+const options = {
+    infoFile: {
+        level: 'info',
         filename: `${appRoot}/server/logs/infos.log`,
-        handlerexceptions: true,
-        maxsize: 5242800,// 5MB
+        handleExceptions: true,
+        maxsize: 5242880, //5MB
         maxFiles: 5,
-        format: myFormat,
+        format: myFileFormat,
     },
-    warnFile:{
-        level:'warning',
-        filename: `${appRoot}/server/logs/warning.log`,
-        handlerexceptions: true,
-        maxsize: 5242800,// 5MB
+
+    warnFile: {
+        level: 'warn',
+        filename: `${appRoot}/server/logs/warns.log`,
+        handleExceptions: true,
+        maxsize: 5242880, //5MB
         maxFiles: 5,
-        format: myFormat,
+        format: myFileFormat,
     },
-    errorFile:{
-        level:'error',
-        filename: `${appRoot}/server/logs/erros.log`,
-        handlerexceptions: true,
-        maxsize: 5242800,// 5MB
+  errorFile: {
+        level: 'error',
+        filename: `${appRoot}/server/logs/errors.log`,
+        handleExceptions: true,
+        maxsize: 5242880, //5MB
         maxFiles: 5,
-        format: myFormat,
+        format: myFileFormat,
     },
-    console:{
+    console: {
         level: 'debug',
-        handlerexceptions: true,
+        handleExceptions: true,
         format: myFormat,
     },
 };
 
-
-// creando la instancia de longer
+// Creando la instancia del logger
 const logger = winston.createLogger({
-    transports:[
-        new winston.transports.File(option.infoFile),
-        new winston.transports.File(option.warnFile),
-        new winston.transports.File(option.errorFile),
-        new winston.transports.Console(option.console)
+    transports: [
+        new winston.transports.File(options.infoFile),
+        new winston.transports.File(options.warnFile),
+        new winston.transports.File(options.errorFile),
+        new winston.transports.Console(options.console),
     ],
-    exitOnError:false,
+    exitOnError: false, //No finaliza en excepciones manejadas
 });
 
-// 
+// Manejo de un stream de entrada
 logger.stream = {
-    write(message){
+  write(message) {
         logger.info(message);
     },
 };

@@ -1,55 +1,56 @@
+const { appendFileSync } = require('fs');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-// Importando  el  eslint 
+// importando el ESLINT
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
-    //0.Establecer el modo del configurador
+    // Modo cofigurador
     mode: 'development',
-    //1. Especificando el archivo de  entrada
+    // Archivo de entrada
     entry: './client/index.js',
-    // 2.Especificando la salida
+    // Especificando la salida
     output: {
-        //3.Rura absoluta de la salida
+        //Salida
         path: path.join(__dirname, 'public'),
-        //4. Nombre del  archivo de  salida
+        //Nombre de salida
         filename: 'js/bundle.js',
-        //5. Ruta del path publico para fines del servidor de desarrollo
-        publicPath:'/'
+        // Ruta del path publico para fines del servidor de desarrollo
+        publicPath: '/'
     },
-    devServer:{
+    devServer: {
         static: path.join(__dirname, 'public'),
         port: process.env.PORT || '3000',
         host: 'localhost'
     },
-    module:{
-        rules:[
+    module: {
+        rules: [
             {
-                test:/\.js$/,
-                exclude: /(node_modules | bower_components)/,
-                use:[
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: [
                     {
-                        loader: 'babel-loader', 
-                        options:{
-                            presets:[
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
                                 [
                                     '@babel/preset-env',
                                     {
                                         'modules': false,
                                         'useBuiltIns': 'usage',
-                                        'targets':{"chrome":"80"},
+                                        'targets': {"chrome": "80"},
                                         'corejs': 3
                                     }
                                 ]
                             ],
-                            "plugins":[
+                            "plugins": [
                                 [
-                                    "module-resolver",
+                                    "module-resolver", 
                                     {
-                                        "root":["./"],
-                                        "alias":{
+                                        "root": ["./"],
+                                        "alias": {
                                             "@client" : "./client",
+                                            
                                         }
                                     }
                                 ]
@@ -60,11 +61,11 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader,'css-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader']
             }
         ]
     },
-    plugins:[
+    plugins: [
         new MiniCssExtractPlugin({
             filename: 'styles/app.css'
         }),

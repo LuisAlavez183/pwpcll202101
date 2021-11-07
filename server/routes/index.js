@@ -1,21 +1,16 @@
 import { Router } from 'express';
-//Importando el router de Home
-import homeRouter from './home'; 
-// Importando el router de users
-import usersRouter from './users'; 
+// Importando el router de home
+import homeRouter from './home';
+// Importando router de users
+import userRouter from './user';
 
-/* GET home page. */
-// router.use('/', homeRouter);
-//  router.use('/user',usersRouter);
-
+// Agregando las rutas a la aplicación 
 const addRoutes = (app) => {
   app.use('/', homeRouter);
-  app.use('/user',usersRouter);
+  app.use('/user', userRouter);
 };
 
 
-export default{
-  addRoutes,
-};
-
-
+export default {
+ addRoutes,
+}
