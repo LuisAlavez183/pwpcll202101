@@ -5,7 +5,12 @@ import './stylesheets/mystyles.css';
 
 // Inicializando Scripts de materialize
 document.addEventListener('DOMContentLoaded', () => {
-  const sideNav = document.querySelectorAll('.sidenav');
-  // eslint-disable-next-line no-undef
-  M.Sidenav.init(sideNav);
+  document.querySelectorAll('.sidenav').forEach((sideNav) => {
+    M.Sidenav.init(sideNav);
+  });
+
+  // Inicializando el dropdown
+  document
+    .querySelectorAll('.dropdown-trigger')
+    .forEach((dropdown) => M.Dropdown.init(dropdown));
 });

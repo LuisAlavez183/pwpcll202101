@@ -4,6 +4,9 @@ import winston from '@server/config/winston';
 // Importando configuraciones de aplicacion
 import configKeys from '@server/config/configKeys';
 
+// Importando la clase de conexion
+
+import MongooseODM from '@server/config/odm'
 
 /**
  * Module dependencies.
@@ -84,10 +87,32 @@ function onListening() {
   debug(`Listening on ${bindAdr}`);
 }
 
+
+/**
+ * Creando ek  objeto de conexion
+ */
+
+const mongooseOdm = new MongooseODM(configKeys.databaseUrl);
+// IIFE
+(
+  async () => {
+    try { 
+      const connectionResult = await mongooseOdm.connect();
+      if (connectionResult){
+        winston.info('Connect ok');
+        server.listen(port);
+        server.on('error', onError);
+        server.on('listening', onListening);
+      }
+    }catch (error){
+      winston.error(`No se conect: ${error.message}`);
+    }
+  }
+)()
+
+
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+
