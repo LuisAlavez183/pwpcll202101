@@ -6,12 +6,18 @@ const index =(req, res) =>{
 
 //"/projects/add" 
 const add = (req, res) => {
-    res.send('REspondiendo a "/projects/add"')
+    res.render('project/addView')
 };
 
+const addPost =(req, res) =>{
+    // Rescatando la información del formulario
+    const { validData: project} = req;
+    res.status(200).json(project);
+};
 
-// TODO: Pendiente por programar
+// Pendiente por programar
 export default{
     add,
+    addPost,
     index,
 };
